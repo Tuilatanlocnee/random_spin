@@ -567,7 +567,7 @@ html, body {
   background: linear-gradient(135deg, #00f2fe 0%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+  filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.3));
 }
 
 .modal-actions {
