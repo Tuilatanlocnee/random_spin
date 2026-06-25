@@ -179,22 +179,30 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
     }
 
     // Vẽ các vành nón lá (đường tròn đồng tâm) chạy ngang qua các lát cắt
-    ctx.strokeStyle = "rgba(101, 67, 33, 0.16)"; // Nâu tre nhạt, mờ tự nhiên
-    ctx.lineWidth = 1.2;
     const numRings = 14;
     for (let r = 1; r <= numRings; r++) {
       const ringRadius = (radius / numRings) * r;
       ctx.beginPath();
       ctx.arc(center, center, ringRadius, 0, 2 * Math.PI);
+      
+      // Tạo nhịp điệu tre chân thật (các vành chính dày hơn chút)
+      if (r % 3 === 0) {
+        ctx.strokeStyle = "rgba(101, 67, 33, 0.24)";
+        ctx.lineWidth = 1.8;
+      } else {
+        ctx.strokeStyle = "rgba(101, 67, 33, 0.14)";
+        ctx.lineWidth = 1.0;
+      }
       ctx.stroke();
     }
 
-    // Vẽ lớp phủ Radial Gradient tạo chiều sâu 3D (hiệu ứng chóp nón)
+    // Vẽ lớp phủ Radial Gradient tạo chiều sâu 3D rõ rệt (hiệu ứng chóp nón cao và sâu)
     const grad = ctx.createRadialGradient(center, center, 0, center, center, radius);
-    grad.addColorStop(0, "rgba(255, 255, 255, 0.4)");   // Tâm sáng (chóp nón gần nguồn sáng)
-    grad.addColorStop(0.25, "rgba(255, 255, 255, 0.15)"); // Sáng lan nhẹ
-    grad.addColorStop(0.8, "rgba(0, 0, 0, 0.1)");       // Tối dần ra ngoài
-    grad.addColorStop(1, "rgba(0, 0, 0, 0.3)");         // Rìa nón có bóng đổ sâu
+    grad.addColorStop(0, "rgba(255, 255, 255, 0.6)");    // Tâm rất sáng (chóp nón cao phản chiếu ánh sáng mạnh)
+    grad.addColorStop(0.15, "rgba(255, 255, 255, 0.3)");
+    grad.addColorStop(0.5, "rgba(0, 0, 0, 0.05)");
+    grad.addColorStop(0.85, "rgba(0, 0, 0, 0.25)");       // Thân nón tối dần xuống
+    grad.addColorStop(1, "rgba(0, 0, 0, 0.48)");          // Rìa nón tối sâu tạo độ nổi khối mạnh
     
     ctx.beginPath();
     ctx.arc(center, center, radius, 0, 2 * Math.PI);
@@ -335,7 +343,6 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
           <svg viewBox="0 0 24 24" className="flag-star" fill="#ffde00">
             <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
           </svg>
-          <span className="spin-text">QUAY</span>
         </div>
       </button>
       {/* Kim chỉ */}
