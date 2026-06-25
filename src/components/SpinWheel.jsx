@@ -187,39 +187,53 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
       
       // Tạo nhịp điệu tre chân thật (các vành chính dày hơn chút)
       if (r % 3 === 0) {
-        ctx.strokeStyle = "rgba(101, 67, 33, 0.24)";
+        ctx.strokeStyle = "rgba(101, 67, 33, 0.26)";
         ctx.lineWidth = 1.8;
       } else {
-        ctx.strokeStyle = "rgba(101, 67, 33, 0.14)";
+        ctx.strokeStyle = "rgba(101, 67, 33, 0.15)";
         ctx.lineWidth = 1.0;
       }
       ctx.stroke();
     }
 
-    // Vẽ lớp phủ Radial Gradient tạo chiều sâu 3D rõ rệt (hiệu ứng chóp nón cao và sâu)
-    const grad = ctx.createRadialGradient(center, center, 0, center, center, radius);
-    grad.addColorStop(0, "rgba(255, 255, 255, 0.6)");    // Tâm rất sáng (chóp nón cao phản chiếu ánh sáng mạnh)
-    grad.addColorStop(0.15, "rgba(255, 255, 255, 0.3)");
-    grad.addColorStop(0.5, "rgba(0, 0, 0, 0.05)");
-    grad.addColorStop(0.85, "rgba(0, 0, 0, 0.25)");       // Thân nón tối dần xuống
-    grad.addColorStop(1, "rgba(0, 0, 0, 0.48)");          // Rìa nón tối sâu tạo độ nổi khối mạnh
+    // Vẽ lớp phủ Conic Gradient tạo bóng đổ hướng 3D (3D Directional Shading)
+    // Giúp nón lá có chiều sâu bóng đổ rõ rệt khi nhìn từ trên xuống dưới ánh sáng nghiêng
+    const lightAngle = (5 * Math.PI) / 4; // Hướng sáng từ Tây Bắc (top-left)
+    const conicGrad = ctx.createConicGradient(lightAngle, center, center);
+    conicGrad.addColorStop(0, "rgba(255, 255, 255, 0.32)");  // Mặt hướng sáng (sáng hơn)
+    conicGrad.addColorStop(0.25, "rgba(0, 0, 0, 0.02)");      // Vùng chuyển tiếp
+    conicGrad.addColorStop(0.5, "rgba(0, 0, 0, 0.38)");       // Vùng khuất sáng (bóng đổ sâu ở Đông Nam)
+    conicGrad.addColorStop(0.75, "rgba(0, 0, 0, 0.02)");      // Vùng chuyển tiếp
+    conicGrad.addColorStop(1, "rgba(255, 255, 255, 0.32)");  // Quay lại hướng sáng
     
     ctx.beginPath();
     ctx.arc(center, center, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = grad;
+    ctx.fillStyle = conicGrad;
     ctx.fill();
 
-    // 4. Vẽ vành tre dày ngoài cùng (Outer Bamboo Rim)
-    ctx.beginPath();
-    ctx.arc(center, center, radius - 2, 0, 2 * Math.PI);
-    ctx.strokeStyle = "#8b5a2b"; // Màu nâu tre già
-    ctx.lineWidth = 4;
-    ctx.stroke();
+    // Vẽ lớp phủ Radial Gradient tạo chóp nón nhô cao 3D ở tâm
+    const radialGrad = ctx.createRadialGradient(center, center, 0, center, center, radius);
+    radialGrad.addColorStop(0, "rgba(255, 255, 255, 0.65)");  // Chóp nón cực sáng ở tâm
+    radialGrad.addColorStop(0.15, "rgba(255, 255, 255, 0.3)");
+    radialGrad.addColorStop(0.45, "rgba(0, 0, 0, 0.05)");
+    radialGrad.addColorStop(0.8, "rgba(0, 0, 0, 0.22)");      // Thân nón tối nhẹ
+    radialGrad.addColorStop(1, "rgba(0, 0, 0, 0.52)");        // Rìa nón tối hẳn để tạo độ nổi bật nổi khối
     
     ctx.beginPath();
     ctx.arc(center, center, radius, 0, 2 * Math.PI);
-    ctx.strokeStyle = "#d5b27a"; // Vàng rơm sáng bọc ngoài
-    ctx.lineWidth = 2;
+    ctx.fillStyle = radialGrad;
+    ctx.fill();
+
+    // 4. Vẽ vành tre dày ngoài cùng (Outer Bamboo Rim) với hiệu ứng ánh sáng 3D
+    const rimGrad = ctx.createLinearGradient(0, 0, size, size);
+    rimGrad.addColorStop(0, "#ffe8cc"); // Vành sáng ở góc trên bên trái
+    rimGrad.addColorStop(0.5, "#d5b27a"); // Màu tre rơm ở giữa
+    rimGrad.addColorStop(1, "#5c3a21");  // Vành tối ở góc dưới bên phải (bóng đổ)
+    
+    ctx.beginPath();
+    ctx.arc(center, center, radius - 1.5, 0, 2 * Math.PI);
+    ctx.strokeStyle = rimGrad;
+    ctx.lineWidth = 5;
     ctx.stroke();
 
     // 5. Vẽ khuyên tròn nhỏ ở tâm tạo thẩm mỹ (Đồng bộ màu đỏ Quốc Kỳ)
