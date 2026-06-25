@@ -266,11 +266,13 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ff3b30 0%, #da251d 60%, #b21e16 100%);
-  border: 4px solid #ffde00;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ff5252 8%, #da251d 45%, #7a0e0a 100%);
+  border: 3.5px solid #ffde00;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.35);
   font-family: var(--font-sans);
   font-weight: 900;

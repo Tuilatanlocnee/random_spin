@@ -262,12 +262,30 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
     ctx.lineWidth = 5.5;
     ctx.stroke();
 
-    // 5. Vẽ khuyên tròn nhỏ ở tâm tạo thẩm mỹ (Đồng bộ màu đỏ Quốc Kỳ)
+    // F. Vẽ bóng đổ của nút đỏ trung tâm đè lên nón lá (phía Đông Nam để tạo chiều sâu nâng cao)
+    ctx.save();
+    ctx.shadowColor = "rgba(0, 0, 0, 0.65)";
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 3.5;
+    ctx.shadowOffsetY = 4.5;
     ctx.beginPath();
-    ctx.arc(center, center, 22, 0, 2 * Math.PI);
+    ctx.arc(center, center, 32, 0, 2 * Math.PI); // Bán kính 32px (hơi nhỏ hơn bán kính nút 36px để bóng đổ gọn gàng dưới nút)
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; // Chỉ vẽ bóng đổ
+    ctx.fill();
+    ctx.restore();
+
+    // G. Vẽ vành tre ốp bọc quanh chân nút bấm trung tâm (Socket ring)
+    // Giúp nút đỏ nhìn như được cắm/lồng thật sự vào chóp nón lá
+    ctx.beginPath();
+    ctx.arc(center, center, 35.5, 0, 2 * Math.PI);
+    ctx.strokeStyle = "rgba(101, 67, 33, 0.4)";
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+    
+    // H. Vẽ khuyên đỏ bổ trợ nhỏ ngay chân nút
+    ctx.beginPath();
+    ctx.arc(center, center, 18, 0, 2 * Math.PI);
     ctx.fillStyle = "#da251d";
-    ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-    ctx.shadowBlur = 6;
     ctx.fill();
   };
 
