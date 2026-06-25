@@ -1,7 +1,5 @@
 /* Giao diện Vòng Quay Random - Phong cách Premium Dark Mode & Glassmorphism */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
-
 :root {
   /* Hệ màu sắc */
   --bg-app: #080b11;
@@ -21,8 +19,8 @@
   --danger: #ef4444;
   --warning: #f59e0b;
   
-  --font-sans: 'Outfit', sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: Arial, Helvetica, sans-serif;
   
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
   --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.24);
@@ -33,11 +31,12 @@
   --border-radius-lg: 24px;
 }
 
-/* Reset CSS */
-* {
+/* Reset CSS - Đặt font Arial làm mặc định cho tất cả phần tử trên trang web */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 html, body {
@@ -531,6 +530,8 @@ html, body {
 }
 
 .modal-content {
+  position: relative; /* Đảm bảo z-index hoạt động */
+  z-index: 2; /* Nằm trên canvas pháo hoa (z-index: 1) */
   background: radial-gradient(circle at top left, #1e293b, #0f172a);
   border: 2px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--border-radius-lg);
@@ -577,13 +578,13 @@ html, body {
 
 /* Canvas pháo hoa */
 .fireworks-canvas {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  z-index: 105;
+  z-index: 1;
 }
 
 /* Lịch sử và danh sách lưu trữ */
