@@ -95,10 +95,16 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
   const arcSize = (2 * Math.PI) / numSlices;
 
   // Tạo dải màu sắc rực rỡ dựa trên chỉ mục và số lượng
-  const getSliceColor = (index, total) => {
-    // Phối màu HSL để đảm bảo các phần kề nhau không bị trùng màu và có độ tương phản cao
-    const hue = (index * (360 / total)) % 360;
-    return `hsl(${hue}, 75%, 50%)`;
+  const getSliceColor = (index) => {
+    // Bảng màu nón lá tự nhiên (tông màu vàng rơm, beige nhạt xen kẽ)
+    const colors = [
+      "#f4ebd0", // Kem lá cọ nhạt
+      "#ebd2b0", // Vàng tre nhạt
+      "#e2c295", // Vàng rơm nhạt
+      "#d5b27a", // Vàng rơm đậm
+      "#c79f64", // Nâu tre ấm
+    ];
+    return colors[index % colors.length];
   };
 
   // Vẽ vòng quay trên Canvas
@@ -134,19 +140,19 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
       ctx.beginPath();
       ctx.arc(center, center, radius, angle, angle + arcSize, false);
       ctx.lineTo(center, center);
-      ctx.fillStyle = getSliceColor(i, numSlices);
+      ctx.fillStyle = getSliceColor(i);
       ctx.fill();
 
-      // Viền phân tách giữa các phần
-      ctx.strokeStyle = "rgba(8, 11, 17, 0.5)";
+      // Viền phân tách giữa các phần (Nan tre phân tách)
+      ctx.strokeStyle = "rgba(101, 67, 33, 0.22)";
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
       // 3. Vẽ chữ (Tên) xoay hướng tâm
       ctx.save();
-      ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
-      ctx.shadowBlur = 4;
+      ctx.fillStyle = "#351f00"; // Màu chữ nâu sẫm của tre già để đọc tốt trên nền sáng
+      ctx.shadowColor = "rgba(255, 255, 255, 0.6)";
+      ctx.shadowBlur = 2;
       ctx.font = `bold ${radius / 10}px "Times New Roman"`;
       
       // Di chuyển gốc tọa độ về tâm và xoay
@@ -172,19 +178,48 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
       ctx.restore();
     }
 
-    // 4. Vẽ viền tròn trang trí ngoài cùng (Outer Border)
+    // Vẽ các vành nón lá (đường tròn đồng tâm) chạy ngang qua các lát cắt
+    ctx.strokeStyle = "rgba(101, 67, 33, 0.16)"; // Nâu tre nhạt, mờ tự nhiên
+    ctx.lineWidth = 1.2;
+    const numRings = 14;
+    for (let r = 1; r <= numRings; r++) {
+      const ringRadius = (radius / numRings) * r;
+      ctx.beginPath();
+      ctx.arc(center, center, ringRadius, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+
+    // Vẽ lớp phủ Radial Gradient tạo chiều sâu 3D (hiệu ứng chóp nón)
+    const grad = ctx.createRadialGradient(center, center, 0, center, center, radius);
+    grad.addColorStop(0, "rgba(255, 255, 255, 0.4)");   // Tâm sáng (chóp nón gần nguồn sáng)
+    grad.addColorStop(0.25, "rgba(255, 255, 255, 0.15)"); // Sáng lan nhẹ
+    grad.addColorStop(0.8, "rgba(0, 0, 0, 0.1)");       // Tối dần ra ngoài
+    grad.addColorStop(1, "rgba(0, 0, 0, 0.3)");         // Rìa nón có bóng đổ sâu
+    
     ctx.beginPath();
     ctx.arc(center, center, radius, 0, 2 * Math.PI);
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
-    ctx.lineWidth = 6;
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // 4. Vẽ vành tre dày ngoài cùng (Outer Bamboo Rim)
+    ctx.beginPath();
+    ctx.arc(center, center, radius - 2, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#8b5a2b"; // Màu nâu tre già
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.arc(center, center, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#d5b27a"; // Vàng rơm sáng bọc ngoài
+    ctx.lineWidth = 2;
     ctx.stroke();
 
-    // 5. Vẽ khuyên tròn nhỏ ở tâm tạo thẩm mỹ
+    // 5. Vẽ khuyên tròn nhỏ ở tâm tạo thẩm mỹ (Đồng bộ màu đỏ Quốc Kỳ)
     ctx.beginPath();
-    ctx.arc(center, center, 20, 0, 2 * Math.PI);
-    ctx.fillStyle = "#ffffff";
+    ctx.arc(center, center, 22, 0, 2 * Math.PI);
+    ctx.fillStyle = "#da251d";
     ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 6;
     ctx.fill();
   };
 
@@ -296,7 +331,12 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
         onClick={handleSpinClick}
         disabled={isSpinning || activeNames.length === 0}
       >
-        QUAY
+        <div className="star-container">
+          <svg viewBox="0 0 24 24" className="flag-star" fill="#ffde00">
+            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+          </svg>
+          <span className="spin-text">QUAY</span>
+        </div>
       </button>
       {/* Kim chỉ */}
       <div ref={pointerRef} className="wheel-pointer" />

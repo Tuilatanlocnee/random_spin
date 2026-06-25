@@ -266,39 +266,94 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffffff 0%, #e2e8f0 100%);
-  border: 4px solid var(--bg-app);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255,255,255,0.8);
+  background: radial-gradient(circle at 35% 35%, #ff3b30 0%, #da251d 60%, #b21e16 100%);
+  border: 4px solid #ffde00;
+  box-shadow: 0 6px 20px rgba(218, 37, 29, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.4);
   font-family: var(--font-sans);
-  font-weight: 800;
-  font-size: 1rem;
-  color: #0f172a;
+  font-weight: 900;
   cursor: pointer;
   z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
+  overflow: hidden;
 }
 
-.spin-center-button:hover {
+.spin-center-button:hover:not(:disabled) {
   transform: translate(-50%, -50%) scale(1.08);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), inset 0 2px 4px rgba(255,255,255,1);
+  box-shadow: 0 0 30px rgba(255, 222, 0, 0.6), 0 0 15px rgba(218, 37, 29, 0.8), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+  border-color: #fff;
 }
 
-.spin-center-button:active {
+.spin-center-button:active:not(:disabled) {
   transform: translate(-50%, -50%) scale(0.95);
+  box-shadow: 0 3px 10px rgba(218, 37, 29, 0.6);
 }
 
 .spin-center-button:disabled {
-  background: #475569;
-  color: #94a3b8;
+  background: radial-gradient(circle, #475569 0%, #334155 100%);
+  border-color: #64748b;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+/* Container bên trong nút quay chứa ngôi sao và chữ */
+.star-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ngôi sao vàng 5 cánh */
+.flag-star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+  animation: star-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes star-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.06); }
+}
+
+/* Chữ QUAY nằm đè lên trên ngôi sao */
+.spin-text {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: #da251d;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+  user-select: none;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.spin-center-button:disabled .flag-star {
+  fill: #64748b;
+  animation: none;
+}
+
+.spin-center-button:disabled .spin-text {
+  color: #94a3b8;
+  text-shadow: none;
 }
 
 /* Khu vực Bảng điều khiển */
