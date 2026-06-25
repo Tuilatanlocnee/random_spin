@@ -96,13 +96,13 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
 
   // Tạo dải màu sắc rực rỡ dựa trên chỉ mục và số lượng
   const getSliceColor = (index) => {
-    // Bảng màu nón lá tự nhiên (tông màu vàng rơm ấm áp của lá cọ sấy khô giống ảnh mẫu)
+    // Bảng màu kim loại đồng cổ kính Đông Sơn (Đồng đỏ, đồng vàng cổ, xanh gỉ đồng cổ)
     const colors = [
-      "#f2d4a7", // Vàng rơm sáng
-      "#ebd09c", // Vàng lá nón ấm
-      "#dfbe83", // Vàng cát tre
-      "#d2ab69", // Vàng tre già
-      "#c59952", // Nâu lá cọ ấm
+      "#3b2616", // Đồng đỏ sẫm
+      "#243a2f", // Xanh gỉ đồng cổ
+      "#8b6534", // Đồng thau cổ
+      "#5a3d24", // Đồng nâu đậm
+      "#1b2e25", // Xanh lục bảo cổ sẫm
     ];
     return colors[index % colors.length];
   };
@@ -113,6 +113,40 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    // Helper để vẽ chim Lạc Đông Sơn cách điệu sải cánh bay
+    const drawChimLac = (c, x, y, size, angle) => {
+      c.save();
+      c.translate(x, y);
+      c.rotate(angle);
+      c.beginPath();
+      
+      // Họa tiết chim Lạc Đông Sơn đặc trưng bay ngược chiều kim đồng hồ
+      c.moveTo(-size * 1.1, -size * 0.05); // Mỏ chim dài nhọn hướng bay
+      c.lineTo(-size * 0.2, 0);          // Mỏ dưới
+      c.lineTo(-size * 0.1, -size * 0.4); // Mào lông sau đầu dài vút
+      c.lineTo(size * 0.15, -size * 0.1);  // Đầu sau mào
+      c.lineTo(size * 0.8, size * 0.1);   // Thân dài bay ngang
+      c.lineTo(size * 1.6, size * 0.35);  // Đuôi dài rộng vút cong
+      c.lineTo(size * 1.1, size * 0.2);   // Bụng đuôi
+      c.lineTo(size * 0.3, size * 0.25);  // Bụng
+      c.lineTo(-size * 0.2, size * 0.12); // Bụng cổ mỏ
+      c.closePath();
+      c.fillStyle = "rgba(212, 175, 55, 0.75)"; // Màu vàng đồng sáng mờ
+      c.fill();
+      
+      // Cánh vút ngược lên trên đón gió
+      c.beginPath();
+      c.moveTo(size * 0.2, -size * 0.1);
+      c.quadraticCurveTo(size * 0.6, -size * 0.85, size * 0.95, -size * 1.15); // Cánh trước
+      c.lineTo(size * 0.4, -size * 0.28);
+      c.quadraticCurveTo(size * 0.05, -size * 0.55, -size * 0.05, -size * 0.65); // Cánh sau nhỏ
+      c.closePath();
+      c.fillStyle = "rgba(212, 175, 55, 0.75)";
+      c.fill();
+      
+      c.restore();
+    };
 
     // Lấy kích thước thực tế của canvas từ CSS (luôn vuông do wrapper aspect-ratio: 1)
     const size = canvas.clientWidth || 450;
@@ -134,7 +168,7 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
     ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
     ctx.fill();
 
-    // 2. Vẽ từng lát (slice) của vòng quay
+    // 2. Vẽ từng lát (slice) của vòng quay trống đồng
     for (let i = 0; i < numSlices; i++) {
       const angle = startAngle.current + i * arcSize;
       ctx.beginPath();
@@ -143,16 +177,16 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
       ctx.fillStyle = getSliceColor(i);
       ctx.fill();
 
-      // Viền phân tách giữa các phần (Nan tre phân tách)
-      ctx.strokeStyle = "rgba(101, 67, 33, 0.22)";
+      // Viền phân tách giữa các múi trống (Đường chỉ đồng vàng khắc chìm)
+      ctx.strokeStyle = "rgba(212, 175, 55, 0.25)";
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
       // 3. Vẽ chữ (Tên) xoay hướng tâm
       ctx.save();
-      ctx.fillStyle = "#351f00"; // Màu chữ nâu sẫm của tre già để đọc tốt trên nền sáng
-      ctx.shadowColor = "rgba(255, 255, 255, 0.6)";
-      ctx.shadowBlur = 2;
+      ctx.fillStyle = "#ffe6a3"; // Màu đồng vàng sáng để dễ đọc trên nền đồng sẫm
+      ctx.shadowColor = "rgba(0, 0, 0, 0.85)"; // Bóng tối đậm tăng độ rõ nét
+      ctx.shadowBlur = 3;
       ctx.font = `bold ${radius / 10}px "Times New Roman"`;
       
       // Di chuyển gốc tọa độ về tâm và xoay
@@ -178,83 +212,126 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
       ctx.restore();
     }
 
-    // A. Vẽ các nan lá nón chạy dọc từ chóp ra rìa (360 nan dọc mỏng đại diện cho thớ lá nón khâu khít tự nhiên)
+    // A. Vẽ ngôi sao mặt trời Đông Sơn 12 cánh ở tâm (xung quanh núm đồng)
     ctx.save();
-    ctx.strokeStyle = "rgba(90, 55, 20, 0.06)";
-    ctx.lineWidth = 0.5;
-    const numSpokes = 360; // Dày đặc từng sợi thớ lá cọ
-    for (let s = 0; s < numSpokes; s++) {
-      const spokeAngle = (2 * Math.PI / numSpokes) * s;
+    ctx.beginPath();
+    for (let i = 0; i < 12; i++) {
+      const starAngle = (2 * Math.PI / 12) * i;
+      const nextAngle = (2 * Math.PI / 12) * (i + 0.5);
+      ctx.lineTo(center + Math.cos(starAngle) * 60, center + Math.sin(starAngle) * 60); // Đỉnh cánh sao
+      ctx.lineTo(center + Math.cos(nextAngle) * 35, center + Math.sin(nextAngle) * 35); // Chân cánh sao
+    }
+    ctx.closePath();
+    ctx.fillStyle = "rgba(212, 175, 55, 0.4)"; // Màu vàng đồng sáng mờ
+    ctx.fill();
+    ctx.strokeStyle = "rgba(212, 175, 55, 0.7)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Vẽ thêm các vạch tia sáng nhỏ xen kẽ giữa các cánh sao mặt trời
+    ctx.strokeStyle = "rgba(212, 175, 55, 0.35)";
+    ctx.lineWidth = 1.0;
+    for (let i = 0; i < 12; i++) {
+      const lightAngle = (2 * Math.PI / 12) * (i + 0.5);
       ctx.beginPath();
-      ctx.moveTo(center, center);
-      ctx.lineTo(center + Math.cos(spokeAngle) * radius, center + Math.sin(spokeAngle) * radius);
+      ctx.moveTo(center + Math.cos(lightAngle) * 35, center + Math.sin(lightAngle) * 35);
+      ctx.lineTo(center + Math.cos(lightAngle) * 52, center + Math.sin(lightAngle) * 52);
       ctx.stroke();
     }
     ctx.restore();
 
-    // B. Vẽ các vành nón lá đồng tâm và khâu chỉ nilon đặc trưng (36 vành đồng tâm khâu chỉ trắng đứt nét)
-    const numRings = 36;
-    for (let r = 1; r <= numRings; r++) {
-      const ringRadius = (radius / numRings) * r;
-      
-      // B.1 Vẽ vành tre làm cốt nón (Màu nâu đỏ nhẹ mờ)
-      ctx.beginPath();
-      ctx.arc(center, center, ringRadius, 0, 2 * Math.PI);
-      if (r % 6 === 0) {
-        ctx.strokeStyle = "rgba(110, 70, 35, 0.26)"; // Vành chịu lực dày
-        ctx.lineWidth = 1.6;
-      } else {
-        ctx.strokeStyle = "rgba(110, 70, 35, 0.12)"; // Vành khâu mảnh
-        ctx.lineWidth = 0.7;
-      }
-      ctx.stroke();
+    // B. Vẽ vành họa tiết răng cưa vòng trong (Radius khoảng radius * 0.42)
+    ctx.save();
+    const innerRadius = radius * 0.42;
+    ctx.beginPath();
+    ctx.arc(center, center, innerRadius, 0, 2 * Math.PI);
+    ctx.strokeStyle = "rgba(212, 175, 55, 0.3)";
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
 
-      // B.2 Vẽ đường chỉ khâu nón (Đường đứt nét màu trắng kem chạy đè lên trên vành tre giống ảnh mẫu)
-      ctx.save();
-      ctx.strokeStyle = "rgba(255, 255, 240, 0.4)";
-      ctx.lineWidth = 0.7;
-      ctx.setLineDash([2, 3]); // Chỉ khâu dạng đứt nét đặc trưng
-      ctx.beginPath();
-      ctx.arc(center, center, ringRadius, 0, 2 * Math.PI);
-      ctx.stroke();
-      ctx.restore();
+    // Vẽ nét răng cưa đặc trưng
+    ctx.beginPath();
+    const numTeeth = 72;
+    for (let p = 0; p <= numTeeth; p++) {
+      const pAngle = (2 * Math.PI / numTeeth) * p;
+      const rDiff = p % 2 === 0 ? 3 : -3;
+      ctx.lineTo(center + Math.cos(pAngle) * (innerRadius + rDiff), center + Math.sin(pAngle) * (innerRadius + rDiff));
     }
+    ctx.strokeStyle = "rgba(212, 175, 55, 0.2)";
+    ctx.lineWidth = 1.0;
+    ctx.stroke();
+    ctx.restore();
 
-    // C. Vẽ lớp phủ Conic Gradient tạo bóng đổ hướng 3D (3D Directional Shading)
-    // Giúp nón lá có chiều sâu bóng đổ rõ rệt như ảnh mẫu khi nhìn từ trên xuống dưới ánh sáng xiên
-    const lightAngle = (5 * Math.PI) / 4; // Hướng sáng Tây Bắc (top-left)
+    // C. Vẽ vòng Chim Lạc sải cánh bay ngược chiều kim đồng hồ (Radius khoảng radius * 0.65)
+    ctx.save();
+    const numBirds = 6;
+    const birdRadius = radius * 0.65;
+    const birdSize = 13;
+    for (let b = 0; b < numBirds; b++) {
+      // Chim Lạc được vẽ trực tiếp trên mặt trống nên góc xoay sẽ chuyển động cùng trống
+      const currentBirdAngle = startAngle.current + (2 * Math.PI / numBirds) * b;
+      const bx = center + Math.cos(currentBirdAngle) * birdRadius;
+      const by = center + Math.sin(currentBirdAngle) * birdRadius;
+      // Đầu hướng bay tiếp tuyến ngược chiều kim đồng hồ
+      drawChimLac(ctx, bx, by, birdSize, currentBirdAngle - Math.PI / 2);
+    }
+    ctx.restore();
+
+    // D. Vẽ vành họa tiết chấm tròn liên kết vòng ngoài (Radius khoảng radius * 0.82)
+    ctx.save();
+    const outerPatternRadius = radius * 0.82;
+    ctx.beginPath();
+    ctx.arc(center, center, outerPatternRadius, 0, 2 * Math.PI);
+    ctx.strokeStyle = "rgba(212, 175, 55, 0.3)";
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // Vẽ thêm 4 vòng tròn đồng tâm bổ trợ mờ để tạo kết cấu trống đồng nhiều vành
+    const extraRings = [0.28, 0.53, 0.74, 0.88];
+    ctx.strokeStyle = "rgba(212, 175, 55, 0.2)";
+    ctx.lineWidth = 0.8;
+    extraRings.forEach(rCoeff => {
+      ctx.beginPath();
+      ctx.arc(center, center, radius * rCoeff, 0, 2 * Math.PI);
+      ctx.stroke();
+    });
+    ctx.restore();
+
+    // E. Vẽ lớp phủ Conic Gradient tạo bóng đổ kim loại 3D phản quang (Metallic Anisotropic Shading)
+    // Giúp mặt trống có ánh kim và bóng đồng thau cổ kính tĩnh trên màn hình
+    const lightAngle = (5 * Math.PI) / 4; // Hướng sáng Tây Bắc
     const conicGrad = ctx.createConicGradient(lightAngle, center, center);
-    conicGrad.addColorStop(0, "rgba(255, 255, 255, 0.52)");   // Đón sáng mạnh
-    conicGrad.addColorStop(0.2, "rgba(255, 255, 255, 0.1)");
-    conicGrad.addColorStop(0.4, "rgba(0, 0, 0, 0.2)");
-    conicGrad.addColorStop(0.5, "rgba(0, 0, 0, 0.65)");       // Mặt khuất sáng Đông Nam cực sâu để tạo khối lồi hẳn lên
-    conicGrad.addColorStop(0.6, "rgba(0, 0, 0, 0.2)");
-    conicGrad.addColorStop(0.8, "rgba(255, 255, 255, 0.1)");
-    conicGrad.addColorStop(1, "rgba(255, 255, 255, 0.52)");
+    conicGrad.addColorStop(0, "rgba(255, 255, 255, 0.28)");  // Ánh kim đồng thau sáng
+    conicGrad.addColorStop(0.12, "rgba(0, 0, 0, 0.15)");
+    conicGrad.addColorStop(0.3, "rgba(0, 0, 0, 0.42)");      // Góc tối đồng gỉ
+    conicGrad.addColorStop(0.5, "rgba(255, 255, 255, 0.15)"); // Ánh kim phụ
+    conicGrad.addColorStop(0.7, "rgba(0, 0, 0, 0.42)");
+    conicGrad.addColorStop(0.88, "rgba(0, 0, 0, 0.15)");
+    conicGrad.addColorStop(1, "rgba(255, 255, 255, 0.28)");
     
     ctx.beginPath();
     ctx.arc(center, center, radius, 0, 2 * Math.PI);
     ctx.fillStyle = conicGrad;
     ctx.fill();
 
-    // D. Vẽ lớp phủ Radial Gradient tạo chóp nón nhô cao 3D ở tâm
+    // F. Vẽ lớp phủ Radial Gradient tạo độ nổi khối chóp vòm nhẹ của trống đồng
     const radialGrad = ctx.createRadialGradient(center, center, 0, center, center, radius);
-    radialGrad.addColorStop(0, "rgba(255, 255, 255, 0.85)");  // Chóp nón cực sáng và nhô cao
-    radialGrad.addColorStop(0.08, "rgba(255, 255, 255, 0.45)"); // Cổ nón
-    radialGrad.addColorStop(0.35, "rgba(0, 0, 0, 0.05)");
-    radialGrad.addColorStop(0.72, "rgba(0, 0, 0, 0.32)");     // Thân nón tối dần
-    radialGrad.addColorStop(1, "rgba(0, 0, 0, 0.62)");        // Rìa nón tối sẫm tạo độ sâu nghiêng cực lớn
+    radialGrad.addColorStop(0, "rgba(255, 255, 255, 0.45)");  // Tâm sáng
+    radialGrad.addColorStop(0.2, "rgba(255, 255, 255, 0.1)");
+    radialGrad.addColorStop(0.5, "rgba(0, 0, 0, 0.05)");
+    radialGrad.addColorStop(0.85, "rgba(0, 0, 0, 0.25)");      // Vỏ trống tối dần
+    radialGrad.addColorStop(1, "rgba(0, 0, 0, 0.65)");        // Thành ngoài trống sẫm hẳn
     
     ctx.beginPath();
     ctx.arc(center, center, radius, 0, 2 * Math.PI);
     ctx.fillStyle = radialGrad;
     ctx.fill();
 
-    // E. Vẽ vành tre dày ngoài cùng (Outer Bamboo Rim) với hiệu ứng ánh sáng 3D
+    // G. Vẽ vành tre/đồng dày ngoài cùng (Outer Bronze Rim) với hiệu ứng ánh sáng 3D
     const rimGrad = ctx.createLinearGradient(0, 0, size, size);
-    rimGrad.addColorStop(0, "#ffe8cc"); // Vành sáng góc trên bên trái
-    rimGrad.addColorStop(0.5, "#d5b27a"); // Màu tre rơm ở giữa
-    rimGrad.addColorStop(1, "#4a2c16");  // Vành tối sẫm góc dưới bên phải
+    rimGrad.addColorStop(0, "#ffeab3"); // Vành sáng đồng thau góc trên bên trái
+    rimGrad.addColorStop(0.5, "#a47c43"); // Màu đồng ở giữa
+    rimGrad.addColorStop(1, "#362213");  // Vành tối góc dưới bên phải
     
     ctx.beginPath();
     ctx.arc(center, center, radius - 1.5, 0, 2 * Math.PI);
@@ -262,19 +339,13 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
     ctx.lineWidth = 5.5;
     ctx.stroke();
 
-    // F. Vẽ bóng đổ của nút đỏ trung tâm đè lên nón lá (phía Đông Nam để tạo chiều sâu nâng cao)
+    // H. Vẽ bóng đổ của núm trống đồng ở tâm (Đông Nam để tạo chiều sâu nâng cao)
     ctx.save();
-    ctx.shadowColor = "rgba(0, 0, 0, 0.65)";
-    ctx.shadowBlur = 10;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.75)";
+    ctx.shadowBlur = 12;
     ctx.shadowOffsetX = 3.5;
     ctx.shadowOffsetY = 4.5;
     ctx.beginPath();
-    ctx.arc(center, center, 32, 0, 2 * Math.PI); // Bán kính 32px (hơi nhỏ hơn bán kính nút 36px để bóng đổ gọn gàng dưới nút)
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; // Chỉ vẽ bóng đổ
-    ctx.fill();
-    ctx.restore();
-
-    // G. Vẽ vành tre ốp bọc quanh chân nút bấm trung tâm (Socket ring)
     // Giúp nút đỏ nhìn như được cắm/lồng thật sự vào chóp nón lá
     ctx.beginPath();
     ctx.arc(center, center, 35.5, 0, 2 * Math.PI);
@@ -396,13 +467,7 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
         className="spin-center-button"
         onClick={handleSpinClick}
         disabled={isSpinning || activeNames.length === 0}
-      >
-        <div className="star-container">
-          <svg viewBox="0 0 24 24" className="flag-star" fill="#ffde00">
-            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-          </svg>
-        </div>
-      </button>
+      />
       {/* Kim chỉ */}
       <div ref={pointerRef} className="wheel-pointer" />
     </div>
