@@ -147,7 +147,7 @@ export default function SpinWheel({ names = [], onSpinEnd, isSpinning, setIsSpin
       ctx.fillStyle = "#ffffff";
       ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
       ctx.shadowBlur = 4;
-      ctx.font = `bold ${radius / 10}px 'Outfit', sans-serif`;
+      ctx.font = `bold ${radius / 10}px "Times New Roman"`;
       
       // Di chuyển gốc tọa độ về tâm và xoay
       ctx.translate(center, center);

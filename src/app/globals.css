@@ -19,8 +19,8 @@
   --danger: #ef4444;
   --warning: #f59e0b;
   
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: Arial, Helvetica, sans-serif;
+  --font-sans: "Times New Roman", Times, serif;
+  --font-mono: "Times New Roman", Times, serif;
   
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
   --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.24);
@@ -31,12 +31,12 @@
   --border-radius-lg: 24px;
 }
 
-/* Reset CSS - Đặt font Arial làm mặc định cho tất cả phần tử trên trang web */
+/* Reset CSS - Đặt font Times New Roman làm mặc định cho tất cả phần tử trên trang web */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 html, body {
