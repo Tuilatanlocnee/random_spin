@@ -6,14 +6,11 @@ import Fireworks from "@/components/Fireworks";
 
 // Danh sách tên mặc định ban đầu
 const DEFAULT_NAMES = [
-  "Nguyễn Văn A",
-  "Trần Thị B",
-  "Lê Hoàng C",
-  "Phạm Minh D",
-  "Hoàng Anh E",
-  "Vũ Quốc F",
-  "Đỗ Diệu G",
-  "Bùi Tấn H"
+  "Tên 1",
+  "Tên 2",
+  "Tên 3",
+  "Tên 4",
+  "Tên 5"
 ];
 
 export default function Home() {
@@ -372,9 +369,6 @@ export default function Home() {
 
   return (
     <div className="app-container">
-      {/* Hiệu ứng pháo hoa toàn màn hình khi trúng giải */}
-      <Fireworks active={showModal} />
-
       {/* Thanh Header Navigation Bar */}
       <header className="app-navbar">
         <div className="navbar-left">
@@ -417,11 +411,6 @@ export default function Home() {
             onSpinEnd={handleSpinEnd}
           />
 
-          {isSpinning && (
-            <p style={{ marginTop: "1rem", color: "#00f2fe", fontWeight: "600", animation: "pulse 1.5s infinite" }}>
-              Đang quay... Hãy chờ đợi kết quả!
-            </p>
-          )}
         </section>
 
         {/* Cột phải: Bảng điều khiển */}
@@ -539,24 +528,55 @@ export default function Home() {
 
       {/* Modal Chúc mừng kết quả */}
       <div className={`modal-overlay ${showModal ? "active" : ""}`} onClick={handleModalClose}>
+        {/* Pháo hoa nổ trên nền tối của overlay nhưng dưới hộp modal */}
+        <Fireworks active={showModal} />
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <div className="modal-title">Xin chúc mừng!</div>
-          <div className="modal-winner-name">{winner}</div>
+          <div className="modal-winner-scroll-container">
+            <div className="modal-winner-scroll">
+              {/* Trục gỗ cuốn bên trái */}
+              <div className="scroll-handle left-handle">
+                <div className="scroll-knob top-knob"></div>
+                <div className="scroll-shaft"></div>
+                <div className="scroll-knob bottom-knob"></div>
+              </div>
+              
+              {/* Thư bản giấy kem ở giữa */}
+              <div className="scroll-paper">
+                <div className="corner-pattern top-left"></div>
+                <div className="corner-pattern top-right"></div>
+                <div className="corner-pattern bottom-left"></div>
+                <div className="corner-pattern bottom-right"></div>
+                <span className="scroll-text">{winner}</span>
+              </div>
+              
+              {/* Trục gỗ cuốn bên phải */}
+              <div className="scroll-handle right-handle">
+                <div className="scroll-knob top-knob"></div>
+                <div className="scroll-shaft"></div>
+                <div className="scroll-knob bottom-knob"></div>
+              </div>
+            </div>
+          </div>
           <div className="modal-actions">
-            <button className="btn btn-primary" onClick={handleRemoveWinner}>
-              Loại bỏ tên này khỏi vòng quay
-            </button>
-            <button className="btn btn-secondary" onClick={handleModalClose}>
-              Đóng (Giữ lại tên)
-            </button>
+            {removeOnHit ? (
+              <button className="btn btn-primary" onClick={handleModalClose}>
+                Đóng
+              </button>
+            ) : (
+              <>
+                <button className="btn btn-primary" onClick={handleRemoveWinner}>
+                  Loại bỏ tên này khỏi vòng quay
+                </button>
+                <button className="btn btn-secondary" onClick={handleModalClose}>
+                  Đóng (Giữ lại tên)
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="app-footer">
-        <p>© 2026 Random Spin Wheel Premium. Được xây dựng bằng Next.js & MongoDB.</p>
-      </footer>
     </div>
   );
 }

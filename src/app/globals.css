@@ -1,58 +1,74 @@
-/* Giao diện Vòng Quay Random - Phong cách Premium Dark Mode & Glassmorphism */
+/* Giao diện Vòng Quay Random - Phong cách Cổ kính Việt Nam */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 :root {
-  /* Hệ màu sắc */
-  --bg-app: #080b11;
-  --bg-gradient: radial-gradient(circle at 50% 50%, #151a26 0%, #080b11 100%);
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-hover: rgba(255, 255, 255, 0.08);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(0, 242, 254, 0.4);
-  
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  --success: #10b981;
+  /* Hệ màu sắc cổ điển Việt Nam */
+  --bg-app: #0f0a07;
+  /* Màu gỗ gụ tối */
+  --bg-gradient: radial-gradient(circle at 50% 50%, #20140c 0%, #0f0a07 100%);
+  --surface: rgba(26, 17, 12, 0.75);
+  /* Gỗ mun mờ */
+  --surface-hover: rgba(43, 29, 20, 0.85);
+  --border: rgba(217, 167, 82, 0.25);
+  /* Viền đồng thau mờ */
+  --border-focus: rgba(217, 167, 82, 0.6);
+
+  --text-main: #fcfaf5;
+  /* Kem ngà */
+  --text-muted: #c2b29d;
+  /* Đồng mờ */
+
+  --primary: #d9a752;
+  /* Màu vàng đồng thau */
+  --primary-hover: #ffde00;
+  /* Vàng kim sáng */
+  --primary-gradient: linear-gradient(135deg, #d9a752 0%, #ffde00 100%);
+  --success: #16a34a;
   --danger: #ef4444;
-  --warning: #f59e0b;
-  
-  --font-sans: "Times New Roman", Times, serif;
+  --warning: #eab308;
+
+  --font-sans: "Playfair Display", "Times New Roman", Times, serif;
   --font-mono: "Times New Roman", Times, serif;
-  
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.24);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
-  
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
+
   --border-radius-sm: 8px;
   --border-radius-md: 16px;
   --border-radius-lg: 24px;
 }
 
-/* Reset CSS - Đặt font Times New Roman làm mặc định cho tất cả phần tử trên trang web */
-*, *::before, *::after {
+/* Reset CSS - Đặt font Playfair Display và Times New Roman làm mặc định */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Times New Roman", Times, serif;
+  font-family: var(--font-sans);
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   background: var(--bg-app);
-  background-image: var(--bg-gradient);
+  background-image: linear-gradient(rgba(15, 10, 7, 0.40), rgba(15, 10, 7, 0.70)), url('/vietnam_heritage_bg_v4.jpg');
+  background-size: 100% 100%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
   color: var(--text-main);
   font-family: var(--font-sans);
-  overflow: hidden; /* Ngăn cuộn trang chính trên desktop */
+  overflow: hidden;
+  /* Ngăn cuộn trang chính trên desktop */
   -webkit-font-smoothing: antialiased;
 }
 
 /* Cho phép cuộn trên màn hình di động */
 @media (max-width: 1024px) {
-  html, body {
+  html,
+  body {
     overflow: auto;
   }
 }
@@ -62,7 +78,8 @@ html, body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0; /* Bỏ padding để navbar tràn viền */
+  padding: 0;
+  /* Bỏ padding để navbar tràn viền */
 }
 
 @media (max-width: 1024px) {
@@ -79,7 +96,8 @@ html, body {
   justify-content: space-between;
   align-items: center;
   height: 56px;
-  background: rgba(11, 15, 25, 0.8); /* Nền tối mờ sang trọng */
+  background: rgba(15, 10, 7, 0.9);
+  /* Nền gỗ tối mờ sang trọng */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -99,22 +117,29 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #00f2fe;
+  color: var(--primary);
+  /* Đổi sang màu đồng vàng */
   animation: spin-slow 20s linear infinite;
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .navbar-brand {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 800;
-  letter-spacing: -0.015em;
-  background: linear-gradient(135deg, #ffffff 40%, #a5b4fc 100%);
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-family: var(--font-sans);
 }
 
 .navbar-right {
@@ -128,7 +153,7 @@ html, body {
   border: none;
   color: var(--text-muted);
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -141,7 +166,7 @@ html, body {
 
 .navbar-btn:hover:not(:disabled) {
   color: var(--text-main);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(217, 167, 82, 0.1);
 }
 
 .navbar-btn:disabled {
@@ -159,8 +184,10 @@ html, body {
   width: 100%;
   flex-grow: 1;
   min-height: 0;
-  height: calc(100vh - 56px); /* Trừ đi chiều cao navbar */
-  padding: 1rem 0; /* Padding nhẹ trên dưới */
+  height: calc(100vh - 56px);
+  /* Trừ đi chiều cao navbar */
+  padding: 1rem 0;
+  /* Padding nhẹ trên dưới */
 }
 
 @media (max-width: 1024px) {
@@ -185,7 +212,7 @@ html, body {
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(217, 167, 82, 0.45);
   box-shadow: var(--shadow-lg);
 }
 
@@ -198,159 +225,152 @@ html, body {
   position: relative;
   height: 100%;
   min-height: 0;
-  padding: 1rem;
+  padding: 3rem 1rem 1rem 1rem;
+  /* Tăng padding-top lên 3rem để đẩy vòng quay và pointer xuống dưới */
 }
 
 .wheel-container-wrapper {
   position: relative;
-  height: 76vh; /* Giảm nhẹ xuống 76vh để tránh chạm vào thanh header */
-  aspect-ratio: 1; /* Luôn giữ hình vuông */
+  height: 76vh;
+  /* Giảm nhẹ xuống 76vh để tránh chạm vào thanh header */
+  aspect-ratio: 1;
+  /* Luôn giữ hình vuông */
   max-width: 100%;
   max-height: 750px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1.5rem auto 0; /* Thêm margin-top 1.5rem để dịch vòng quay xuống cân xứng hơn */
+  margin: 2rem auto 0;
+  /* Tăng margin-top nhẹ lên 2rem để dịch vòng quay cân đối */
 }
 
-@media (max-width: 1024px) {
-  .wheel-section {
-    min-height: 450px;
-    height: auto;
-  }
-  .wheel-container-wrapper {
-    height: auto;
-    width: 350px;
-    height: 350px;
-  }
-}
-
-@media (max-width: 480px) {
-  .wheel-container-wrapper {
-    width: 290px;
-    height: 290px;
-  }
-}
+/* Media queries di động cũ đã được chuyển và tối ưu ở cuối file */
 
 /* Canvas vòng quay */
 .wheel-canvas {
   width: 100% !important;
   height: 100% !important;
   display: block;
-  filter: drop-shadow(0 14px 40px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 14px 40px rgba(0, 0, 0, 0.65));
 }
 
-/* Kim chỉ (Pointer) - Nhọn và sắc sảo hơn, đè trực tiếp lên mép vòng quay */
+/* Kim chỉ Mũi tên Gỗ (Pointer) - Đặt ở đỉnh 12 giờ hướng xuống */
 .wheel-pointer {
   position: absolute;
-  right: -24px; /* Dời đuôi ra ngoài thêm để tránh đâm sâu vào vòng quay */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-right: 36px solid #ff4757; /* Mảnh dẻ và cực kỳ nhọn */
+  left: 50%;
+  top: -32px;
+  /* Đặt nhô lên mép trên gá vào vành gỗ */
+  width: 70px;
+  height: 95px;
+  background-image: url('/wooden_pointer.png?v=1.1');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 10;
-  filter: drop-shadow(-2px 4px 6px rgba(0,0,0,0.3));
-  transition: transform 0.1s ease;
+  filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.65));
+  transform-origin: 50% 15%;
+  /* Điểm xoay ở phần chuôi phía trên */
+  transform: translateX(-50%) rotate(0deg);
+  transition: transform 0.08s ease;
+  pointer-events: none;
 }
 
 .wheel-pointer.tick {
-  transform: translateY(-50%) rotate(-15deg);
+  animation: pointer-wiggle 0.08s ease-in-out;
 }
 
+@keyframes pointer-wiggle {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  30% {
+    transform: translateX(-50%) rotate(-6deg);
+  }
+
+  70% {
+    transform: translateX(-50%) rotate(6deg);
+  }
+
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+}
+
+/* Nút bấm trung tâm dạng Cờ đỏ sao vàng 3D */
 .spin-center-button {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff9e6 0%, #d4af37 35%, #9e7823 70%, #523b10 100%);
-  border: 3.5px solid #d4af37;
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.65), inset 0 2px 4px rgba(255, 255, 255, 0.45);
+  background: radial-gradient(circle at 35% 35%, #ff4d4d 0%, #da251d 60%, #8b120c 100%);
+  /* Nền đỏ cờ 3D */
+  border: 3.5px solid #d9a752;
+  /* Viền vàng đồng thau */
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.75),
+    inset 0 0 10px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   z-index: 5;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
 .spin-center-button:hover:not(:disabled) {
   transform: translate(-50%, -50%) scale(1.08);
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.75), inset 0 2px 5px rgba(255, 255, 255, 0.6);
-  border-color: #ffffff;
+  box-shadow:
+    0 0 25px rgba(217, 167, 82, 0.85),
+    inset 0 0 15px rgba(0, 0, 0, 0.6),
+    inset 0 2px 5px rgba(255, 255, 255, 0.3);
+  border-color: #ffde00;
 }
 
 .spin-center-button:active:not(:disabled) {
-  transform: translate(-50%, -50%) scale(0.95);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  transform: translate(-50%, -50%) scale(0.94);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.85);
 }
 
 .spin-center-button:disabled {
-  background: radial-gradient(circle, #555 0%, #2a2a2a 100%);
-  border-color: #444;
   cursor: not-allowed;
-  box-shadow: none;
+  filter: brightness(0.85);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
-/* Container bên trong nút quay chứa ngôi sao và chữ */
-.star-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Ngôi sao vàng 5 cánh */
-.flag-star {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  height: 80%;
-  z-index: 1;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+/* Ngôi sao vàng đồng Đông Sơn ở trung tâm */
+.bronze-star-icon {
+  width: 78%;
+  height: 78%;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
   pointer-events: none;
   animation: star-pulse 2.5s ease-in-out infinite;
 }
 
 @keyframes star-pulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -50%) scale(1.06); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
 }
 
-/* Chữ QUAY nằm đè lên trên ngôi sao */
-.spin-text {
-  position: relative;
-  z-index: 2;
-  font-family: var(--font-sans);
-  font-weight: 900;
-  font-size: 0.95rem;
-  color: #da251d;
-  letter-spacing: 0.05em;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
-  user-select: none;
-  pointer-events: none;
-  transition: all 0.2s ease;
-}
-
-.spin-center-button:disabled .flag-star {
-  fill: #64748b;
+.spin-center-button:disabled .bronze-star-icon {
+  filter: brightness(0.7) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
   animation: none;
 }
 
-.spin-center-button:disabled .spin-text {
-  color: #94a3b8;
-  text-shadow: none;
-}
 
 /* Khu vực Bảng điều khiển */
 .control-section {
@@ -397,13 +417,13 @@ html, body {
 .names-textarea {
   width: 100%;
   height: 220px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.45);
   border: 1px solid var(--border);
   border-radius: var(--border-radius-sm);
   color: var(--text-main);
   padding: 1rem;
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.5;
   resize: vertical;
   outline: none;
@@ -412,8 +432,8 @@ html, body {
 
 .names-textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--border-focus);
-  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 3px rgba(217, 167, 82, 0.25);
+  background: rgba(0, 0, 0, 0.55);
 }
 
 /* Tùy chọn (Switch & Checkbox) */
@@ -422,7 +442,7 @@ html, body {
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(26, 17, 12, 0.4);
   border-radius: var(--border-radius-sm);
   border: 1px solid var(--border);
 }
@@ -450,28 +470,29 @@ html, body {
   transition: all 0.2s ease;
 }
 
-.option-item input[type="checkbox"]:checked + .custom-checkbox {
-  border-color: var(--success);
-  background: var(--success);
+.option-item input[type="checkbox"]:checked+.custom-checkbox {
+  border-color: var(--primary);
+  background: var(--primary);
 }
 
 .custom-checkbox::after {
   content: "";
   width: 5px;
   height: 10px;
-  border: solid white;
+  border: solid #1a0f07;
+  /* Màu gỗ đen */
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   display: none;
 }
 
-.option-item input[type="checkbox"]:checked + .custom-checkbox::after {
+.option-item input[type="checkbox"]:checked+.custom-checkbox::after {
   display: block;
 }
 
 .option-label {
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .option-description {
@@ -506,15 +527,16 @@ html, body {
 
 .btn-primary {
   background: var(--primary-gradient);
-  color: #0b0f19;
+  color: #1a0f07;
+  /* Màu chữ sẫm trên nền vàng đồng */
   font-weight: 700;
-  box-shadow: 0 4px 14px rgba(0, 242, 254, 0.3);
+  box-shadow: 0 4px 14px rgba(217, 167, 82, 0.35);
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
-  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(217, 167, 82, 0.55);
+  filter: brightness(1.15);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -522,25 +544,25 @@ html, body {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text-main);
   border-color: var(--border);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(217, 167, 82, 0.12);
+  border-color: rgba(217, 167, 82, 0.35);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
 /* Input text */
 .text-input {
   width: 100%;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border);
   border-radius: var(--border-radius-sm);
   color: var(--text-main);
@@ -554,7 +576,7 @@ html, body {
 
 .text-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(217, 167, 82, 0.25);
 }
 
 /* Modal Popup chúc mừng */
@@ -564,7 +586,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(8, 11, 17, 0.85);
+  background: rgba(15, 10, 7, 0.85); /* Đổi sang màu đen gỗ mun tối */
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -581,16 +603,18 @@ html, body {
 }
 
 .modal-content {
-  position: relative; /* Đảm bảo z-index hoạt động */
-  z-index: 2; /* Nằm trên canvas pháo hoa (z-index: 1) */
-  background: radial-gradient(circle at top left, #1e293b, #0f172a);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  /* Đảm bảo z-index hoạt động */
+  z-index: 2;
+  /* Nằm trên canvas pháo hoa (z-index: 1) */
+  background: radial-gradient(circle at top left, #281a11, #0f0a07); /* Nền gỗ gụ/mun tối sang trọng */
+  border: 2.5px solid var(--primary); /* Viền màu vàng đồng thau cổ */
   border-radius: var(--border-radius-lg);
   padding: 3rem 2.5rem;
   width: 90%;
   max-width: 500px;
   text-align: center;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 35px rgba(217, 167, 82, 0.2);
   transform: scale(0.85);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -603,28 +627,287 @@ html, body {
   font-size: 1.5rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-sans); /* Sử dụng font chữ cổ kính Playfair Display */
 }
 
-.modal-winner-name {
-  font-size: 3rem;
+/* Container quản lý kích thước cuộn thư */
+.modal-winner-scroll-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.75rem auto 2.5rem;
+  width: 100%;
+}
+
+/* Khung cuộn thư chính */
+.modal-winner-scroll {
+  display: inline-flex;
+  align-items: stretch;
+  justify-content: center;
+  position: relative;
+  max-width: 95%;
+  box-sizing: border-box;
+
+  /* Hoạt ảnh cuộn mở: mặc định thu nhỏ ngang */
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Biến mất nhanh khi đóng */
+}
+
+/* Kích hoạt cuộn mở khi modal active */
+.modal-overlay.active .modal-winner-scroll {
+  transform: scaleX(1);
+  opacity: 1;
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.25, 1) 0.3s, opacity 0.4s ease 0.3s; /* Mở ra mượt mà */
+}
+
+/* Nền giấy kem ở giữa cuộn thư */
+.scroll-paper {
+  background: linear-gradient(to right, #ebdcb9 0%, #fffdf9 50%, #ebdcb9 100%);
+  border: 2.5px solid #c8963e; /* Khung viền vàng đồng bao quanh giấy */
+  border-radius: 4px; /* Giấy phẳng, bo góc rất nhẹ sang trọng như hình mẫu */
+  padding: 1.25rem 3.5rem;
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 20px rgba(217, 167, 82, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+}
+
+/* Đường chỉ vàng mỏng chạy dọc mép trong tạo viền kép */
+.scroll-paper::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  border: 1px solid rgba(200, 150, 62, 0.5);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Hoa văn góc vuông kép cổ điển (Double Corner Border) giống hình mẫu */
+.corner-pattern {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #c8963e;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.top-left {
+  top: 12px;
+  left: 12px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.top-left::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid #c8963e;
+  border-left: 1.5px solid #c8963e;
+}
+
+.top-right {
+  top: 12px;
+  right: 12px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.top-right::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid #c8963e;
+  border-right: 1.5px solid #c8963e;
+}
+
+.bottom-left {
+  bottom: 12px;
+  left: 12px;
+  border-right: none;
+  border-top: none;
+}
+
+.bottom-left::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  width: 6px;
+  height: 6px;
+  border-bottom: 1.5px solid #c8963e;
+  border-left: 1.5px solid #c8963e;
+}
+
+.bottom-right {
+  bottom: 12px;
+  right: 12px;
+  border-left: none;
+  border-top: none;
+}
+
+.bottom-right::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-bottom: 1.5px solid #c8963e;
+  border-right: 1.5px solid #c8963e;
+}
+
+/* Trục cuốn hai bên nhô cao hơn mép giấy */
+.scroll-handle {
+  width: 22px;
+  position: absolute;
+  top: -12px; /* Nhô lên trên mép giấy 12px giống hệt hình mẫu */
+  bottom: -12px; /* Nhô xuống dưới mép giấy 12px giống hệt hình mẫu */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.left-handle {
+  left: -11px; /* Đè lấn một nửa trục cuốn lên mép trái của giấy để gắn kết tự nhiên */
+}
+
+.right-handle {
+  right: -11px; /* Đè lấn một nửa trục cuốn lên mép phải của giấy để gắn kết tự nhiên */
+}
+
+/* Thanh trục cuốn bọc vải lụa đỏ 3D */
+.scroll-shaft {
+  width: 18px;
+  flex-grow: 1; /* Tự động kéo dài chiếm trọn 100% khoảng trống để chạm khít hai đầu núm vàng */
+  background: linear-gradient(to right, #6b0505 0%, #b81414 25%, #e52d2d 50%, #b81414 75%, #500303 100%); /* Lụa đỏ phản quang 3D cực đẹp */
+  border-left: 1px solid rgba(217, 167, 82, 0.4);
+  border-right: 1px solid rgba(217, 167, 82, 0.4);
+  box-shadow: 
+    -2px 0 5px rgba(0, 0, 0, 0.65),
+    inset 1px 0 2px rgba(255, 255, 255, 0.15);
+  z-index: 4;
+}
+
+/* Núm vàng đầu trục cuốn - Thiết kế dạng quả cầu cổ thắt 3D cực kỳ tinh xảo */
+.scroll-knob {
+  width: 24px;
+  height: 22px;
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  z-index: 5;
+}
+
+/* Quả cầu tròn vàng ở đầu */
+.scroll-knob::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 14px;
+  background: radial-gradient(circle at 35% 35%, #fffbf0 0%, #d9a752 55%, #8c5d1e 100%);
+  border: 1px solid rgba(255, 222, 0, 0.55);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Cổ thắt nhỏ gắn vào trục */
+.scroll-knob::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 8px;
+  background: linear-gradient(to right, #8c5d1e, #d9a752, #8c5d1e);
+  border: 0.5px solid rgba(255, 222, 0, 0.3);
+}
+
+.top-knob::before {
+  top: 0;
+  border-radius: 50% 50% 35% 35%;
+}
+
+.top-knob::after {
+  bottom: 0;
+}
+
+.bottom-knob::before {
+  bottom: 0;
+  border-radius: 35% 35% 50% 50%;
+}
+
+.bottom-knob::after {
+  top: 0;
+}
+
+/* Phần chữ tên người thắng bên trong cuộn giấy */
+.scroll-text {
+  font-family: var(--font-sans);
+  font-size: 2.35rem; /* Giảm nhẹ để các tên dài vẫn vừa vặn trên một hàng */
   font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 2rem;
+  color: #8b120c; /* Đỏ son truyền thống đậm đà, cực kỳ truyền thống và nổi bật */
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.02em;
   line-height: 1.2;
-  word-break: break-word;
-  background: linear-gradient(135deg, #00f2fe 0%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.3));
+  white-space: nowrap; /* Bắt buộc viết trên 1 hàng, tuyệt đối không xuống dòng */
+
+  /* Hoạt ảnh chữ xuất hiện trễ */
+  display: block;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s ease, transform 0.2s ease; /* Tắt nhanh */
+}
+
+/* Khi active hiện chữ */
+.modal-overlay.active .scroll-text {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.8s ease 1.5s, transform 0.8s ease 1.5s; /* Tăng delay lên 1.5s và duration lên 0.8s để tạo sự hồi hộp */
 }
 
 .modal-actions {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+/* Tinh chỉnh nút Primary trong modal để giảm độ chói */
+.modal-actions .btn-primary {
+  background: linear-gradient(135deg, #a27b38 0%, #d9a752 100%); /* Màu vàng đồng trầm cổ điển, sang trọng và dịu mắt */
+  color: #fcfaf5; /* Đổi sang màu chữ kem ngà để tương phản tốt trên nền đồng sậm */
+  border: 1.5px solid rgba(217, 167, 82, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.modal-actions .btn-primary:hover {
+  background: linear-gradient(135deg, #b88d42 0%, #e0bd68 100%); /* Tăng sáng nhẹ khi hover nhưng vẫn dịu mắt */
+  filter: none; /* Bỏ bộ lọc tăng sáng mạnh (brightness) làm chói mắt */
+  box-shadow: 0 6px 16px rgba(217, 167, 82, 0.3);
+  transform: translateY(-1px);
 }
 
 /* Canvas pháo hoa */
@@ -756,12 +1039,126 @@ html, body {
   color: #818cf8;
 }
 
-/* Footer */
-.app-footer {
-  text-align: center;
-  padding: 2rem 0 1rem;
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  border-top: 1px solid var(--border);
-  margin-top: 3rem;
+/* Bố cục căn giữa vòng quay trên Desktop và tối ưu hóa vị trí sidebar */
+@media (min-width: 1025px) {
+  .main-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: calc(100vh - 56px);
+  }
+
+  .wheel-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0;
+    height: 100%;
+    z-index: 5;
+  }
+
+  .wheel-container-wrapper {
+    margin-top: 0; /* Bỏ margin-top dư thừa để căn giữa dọc hoàn hảo */
+    height: 80vh;  /* Tối ưu chiều cao vòng quay */
+  }
+
+  .control-section {
+    position: absolute;
+    right: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 340px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .control-section .glass-card {
+    background: rgba(26, 17, 12, 0.55); /* Giảm độ đục từ 0.75 xuống 0.55 để mờ nhẹ */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Tối ưu hóa toàn diện giao diện và ảnh nền cho thiết bị di động */
+@media (max-width: 1024px) {
+  html,
+  body {
+    background-image: linear-gradient(rgba(15, 10, 7, 0.35), rgba(15, 10, 7, 0.65)), url('/vietnam_heritage_bg_mobile.jpg');
+    background-size: cover; /* Phủ kín màn hình di động không lo kéo giãn biến dạng */
+    background-position: center top;
+    background-attachment: fixed;
+  }
+
+  .main-layout {
+    padding: 0.5rem 0.75rem;
+    gap: 1rem;
+  }
+
+  .wheel-section {
+    min-height: auto;
+    padding: 1.5rem 0.5rem 0.5rem 0.5rem; /* Thu gọn khoảng cách phía trên */
+  }
+
+  /* Vòng quay tự động co giãn to tối đa theo chiều ngang của màn hình điện thoại */
+  .wheel-container-wrapper {
+    width: 86vw !important;
+    height: 86vw !important;
+    max-width: 360px !important;
+    max-height: 360px !important;
+    margin: 1rem auto 0 !important;
+  }
+
+  /* Tinh chỉnh nút cờ đỏ sao vàng ở tâm vòng quay nhỏ lại cho cân đối tỉ lệ */
+  .spin-center-button {
+    width: 56px !important;
+    height: 56px !important;
+    border-width: 2.5px !important;
+  }
+  
+  .spin-center-button:hover:not(:disabled) {
+    transform: translate(-50%, -50%) scale(1.06) !important;
+  }
+
+  .spin-center-button:active:not(:disabled) {
+    transform: translate(-50%, -50%) scale(0.94) !important;
+  }
+
+  /* Thu nhỏ kim chỉ gỗ (pointer) tương ứng cho khít khao với vòng quay di động */
+  .wheel-pointer {
+    width: 54px !important;
+    height: 72px !important;
+    top: -24px !important;
+  }
+
+  /* Thu nhỏ chiều cao textarea trên điện thoại để tiết kiệm diện tích cuộn */
+  .names-textarea {
+    height: 120px !important;
+  }
+
+  /* Giảm bớt độ đục của bảng điều khiển để lộ lấp ló hoa sen đỏ cổ điển phía sau */
+  .control-section .glass-card {
+    background: rgba(26, 17, 12, 0.45) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Ẩn hoàn toàn Next.js Dev Badge (nút chữ N ở góc dưới) */
+nextjs-portal, 
+#nextjs-dev-indicator,
+[data-nextjs-dialog-overlay] {
+  display: none !important;
 }

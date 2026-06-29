@@ -1,14 +1,6 @@
 import mongoose from "mongoose";
 
-// Lấy MONGODB_URI từ biến môi trường
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error(
-    "Vui lòng định nghĩa biến môi trường MONGODB_URI trong file .env"
-  );
-}
-
+// Khởi tạo đối tượng cache cho kết nối
 /**
  * Trong môi trường development, Next.js sử dụng cơ chế hot reloading.
  * Nếu không cache kết nối, mỗi lần reload sẽ tạo ra một kết nối mới tới MongoDB
@@ -22,6 +14,14 @@ if (!cached) {
 }
 
 async function dbConnect() {
+  const MONGODB_URI = process.env.MONGODB_URI;
+
+  if (!MONGODB_URI) {
+    throw new Error(
+      "Vui lòng định nghĩa biến môi trường MONGODB_URI trong file .env"
+    );
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
